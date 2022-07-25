@@ -11,6 +11,14 @@ class ShibokenRecipe(PythonRecipe):
 
     def build_arch(self, arch):
         ''' Unzip the wheel and copy into site-packages of target'''
+        env = self.get_recipe_env(arch)
+        info('Shyam Experimentation')
+        info('ENV: {}'.format("\n".join("export {}='{}'".format(n, v) for n, v in env.items())))
+        shprint(sh.echo, '$PATH', _env=env)
+        shprint(sh.echo, '$LDFLAGS', _env=env)
+        shprint(sh.echo, '$CFLAGS', _env=env)
+        print(env)
+
         info('Installing {} into site-packages'.format(self.name))
         with zipfile.ZipFile(self.wheel_path, 'r') as zip_ref:
             info('Unzip wheels and copy into {}'.format(self.ctx.get_python_install_dir(arch.arch)))
